@@ -1,0 +1,3 @@
+# Event kits. Created and edited in-game via /createevents > Kits.
+# Kits are saved here under kits.kit<number>.
+kits: {}

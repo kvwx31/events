@@ -1,0 +1,44 @@
+name: events
+version: 1.0.0
+author: kvwx
+main: com.kvwx.events.EventsPlugin
+api-version: '1.20'
+commands:
+  event:
+    description: Join the current event or transfer to event server
+    usage: /event
+  createevents:
+    description: Open the event creation GUI
+    permission: events.createevent
+    usage: /createevents
+  forcestart:
+    description: Force start the event early
+    permission: events.createevent
+    usage: /forcestart
+  shrink:
+    description: Shrink the event border by blocks
+    permission: events.createevent
+    usage: /shrink <blocks>
+  drop:
+    description: Drop all players by clearing blocks to deepslate or bedrock
+    permission: events.createevent
+    usage: /drop <deepslate|bedrock>
+  hub:
+    description: Leave the event and return to the hub server
+    usage: /hub
+  stopevent:
+    description: Stop the event, clear items, and send players to hub
+    permission: events.createevent
+    usage: /stopevent
+  addtime:
+    description: Add time to event countdown
+    permission: events.createevent
+    usage: /addtime <time>
+  removetime:
+    description: Remove time from event countdown
+    permission: events.createevent
+    usage: /removetime <time>
+permissions:
+  events.createevent:
+    description: Allows administrative management of events
+    default: op

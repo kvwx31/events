@@ -1,20 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.bukkit.Bukkit
- *  org.bukkit.Material
- *  org.bukkit.entity.Player
- *  org.bukkit.event.EventHandler
- *  org.bukkit.event.Listener
- *  org.bukkit.event.inventory.InventoryClickEvent
- *  org.bukkit.event.inventory.InventoryCloseEvent
- *  org.bukkit.event.player.AsyncPlayerChatEvent
- *  org.bukkit.inventory.Inventory
- *  org.bukkit.inventory.ItemStack
- *  org.bukkit.inventory.meta.ItemMeta
- *  org.bukkit.plugin.Plugin
- */
 package com.kvwx.events;
 
 import com.kvwx.events.EventManager;
@@ -29,6 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -73,6 +58,14 @@ implements Listener {
             kitNum = i + 1;
             boolean isSelected = kitNum == selKit;
             ItemStack item = this.createItem(Material.LIGHT_BLUE_SHULKER_BOX, isSelected ? "\u00a7aKit #" + kitNum : "\u00a7eKit #" + kitNum, isSelected ? "\u00a7aSELECTED" : "\u00a77Click to select");
+            if (isSelected) {
+                item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+                ItemMeta meta = item.getItemMeta();
+                if (meta != null) {
+                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    item.setItemMeta(meta);
+                }
+            }
             inv.setItem(9 + i, item);
         }
         for (i = 0; i < 9; ++i) {
@@ -174,6 +167,7 @@ implements Listener {
                 em.setSelectedWorld(opts.get((idx + 1) % opts.size()));
                 this.openMainGui(player);
             } else if (slot == 16) {
+                this.openingNewGui.add(player.getUniqueId());
                 this.openKitsGui(player);
             } else if (slot == 22) {
                 player.closeInventory();
@@ -189,6 +183,7 @@ implements Listener {
                 } else {
                     this.selectedKit.put(player.getUniqueId(), kitNum);
                 }
+                this.openingNewGui.add(player.getUniqueId());
                 this.openKitsGui(player);
                 return;
             }
@@ -199,6 +194,7 @@ implements Listener {
                 return;
             }
             if (slot == 35) {
+                this.openingNewGui.add(player.getUniqueId());
                 this.openMainGui(player);
                 return;
             }
@@ -248,7 +244,7 @@ implements Listener {
         }
         String title = event.getView().getTitle();
         if (title.equals("\u00a78Kits")) {
-            Bukkit.getScheduler().runTask((Plugin)this.plugin, () -> this.openMainGui(player));
+            return;
         } else if (title.startsWith("\u00a78Kit Editor")) {
             Bukkit.getScheduler().runTask((Plugin)this.plugin, () -> this.openKitsGui(player));
         }
@@ -347,4 +343,3 @@ implements Listener {
 
     }
 }
-

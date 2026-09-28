@@ -1,34 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  net.md_5.bungee.api.ChatMessageType
- *  net.md_5.bungee.api.chat.TextComponent
- *  org.bukkit.Bukkit
- *  org.bukkit.Color
- *  org.bukkit.GameMode
- *  org.bukkit.Location
- *  org.bukkit.Material
- *  org.bukkit.Particle
- *  org.bukkit.Sound
- *  org.bukkit.World
- *  org.bukkit.WorldBorder
- *  org.bukkit.block.Block
- *  org.bukkit.entity.BlockDisplay
- *  org.bukkit.entity.Display$Billboard
- *  org.bukkit.entity.Entity
- *  org.bukkit.entity.EntityType
- *  org.bukkit.entity.Interaction
- *  org.bukkit.entity.Player
- *  org.bukkit.entity.TextDisplay
- *  org.bukkit.plugin.Plugin
- *  org.bukkit.scheduler.BukkitRunnable
- *  org.bukkit.scheduler.BukkitTask
- *  org.bukkit.util.Transformation
- *  org.bukkit.util.Vector
- *  org.joml.AxisAngle4f
- *  org.joml.Vector3f
- */
 package com.kvwx.events;
 
 import com.kvwx.events.EventsPlugin;
@@ -86,7 +55,7 @@ public class EventManager {
     private final Map<UUID, Map<String, TextDisplay>> playerBiomePercentages = new HashMap<UUID, Map<String, TextDisplay>>();
     private final Map<UUID, Map<String, BlockDisplay>> playerBiomeDisplays = new HashMap<UUID, Map<String, BlockDisplay>>();
     private Map<UUID, Location> originalPositions = new HashMap<UUID, Location>();
-    public final List<BiomeOption> BIOME_OPTIONS = Arrays.asList(new BiomeOption("plains", "Plains", Material.GRASS_BLOCK, "world_minecraft_plains"), new BiomeOption("desert", "Desert", Material.SAND, "world_minecraft_desert"), new BiomeOption("badlands", "Badlands", Material.TERRACOTTA, "world_minecraft_badlands"), new BiomeOption("snow", "Snow", Material.SNOW_BLOCK, "world_minecraft_snowy_fields"), new BiomeOption("mushroom", "Mushroom", Material.RED_MUSHROOM_BLOCK, "world_minecraft_mushroom"), new BiomeOption("cherry", "Cherry", Material.CHERRY_LOG, "world_minecraft_cherry"));
+    public final List<BiomeOption> BIOME_OPTIONS = Arrays.asList(new BiomeOption("plains", "Plains", Material.GRASS_BLOCK, "world_minecraft_plains"), new BiomeOption("desert", "Desert", Material.SAND, "world_minecraft_desert"), new BiomeOption("snow", "Snow", Material.SNOW_BLOCK, "world_minecraft_snowy_fields"), new BiomeOption("cherry", "Cherry", Material.CHERRY_LEAVES, "world_minecraft_cherry"), new BiomeOption("badlands", "Badlands", Material.RED_SAND, "world_minecraft_badlands"), new BiomeOption("mushroom", "Mushroom", Material.RED_MUSHROOM_BLOCK, "world_minecraft_mushroom"));
 
     public Location getVotingCenter(Player player) {
         return this.playerVotingCenters.get(player.getUniqueId());
@@ -199,7 +168,7 @@ public class EventManager {
                     if (p == null) continue;
                     EventManager.this.sendActionBar(p, bar);
                 }
-                if (EventManager.this.countdownSeconds == 300 || EventManager.this.countdownSeconds == 180 || EventManager.this.countdownSeconds == 60 || EventManager.this.countdownSeconds == 30 || EventManager.this.countdownSeconds <= 10) {
+                if (EventManager.this.countdownSeconds == 300 || EventManager.this.countdownSeconds == 180 || EventManager.this.countdownSeconds == 60 || EventManager.this.countdownSeconds == 30 || EventManager.this.countdownSeconds == 15 || EventManager.this.countdownSeconds == 10 || EventManager.this.countdownSeconds == 5 || EventManager.this.countdownSeconds == 4 || EventManager.this.countdownSeconds == 3 || EventManager.this.countdownSeconds == 2 || EventManager.this.countdownSeconds == 1) {
                     EventManager.this.broadcast("\u00a7b[Event] Starting in " + EventManager.formatDuration(EventManager.this.countdownSeconds) + "!");
                 }
                 --EventManager.this.countdownSeconds;
@@ -271,7 +240,7 @@ public class EventManager {
                     blockDisplay.setGlowing(false);
                     blockDisplay.setGlowColorOverride(Color.fromRGB((int)0, (int)168, (int)255));
                     float scale = 0.7f;
-                    Transformation transform = new Transformation(new Vector3f(-scale / 2.0f, -scale / 2.0f, -scale / 2.0f), new AxisAngle4f(0.0f, 1.0f, 0.0f, (float)Math.toRadians(yawRotation)), new Vector3f(scale, scale, scale), new AxisAngle4f(0.0f, 0.0f, 1.0f, 0.0f));
+                    Transformation transform = new Transformation(new Vector3f(-scale / 2.0f, -scale / 2.0f, -scale / 2.0f), new AxisAngle4f(0.0f, 1.0f, 0.0f, (float)Math.toRadians(yawRotation)), new Vector3f(scale, scale, scale), new AxisAngle4f(0.0f, 1.0f, 0.0f, 0.0f));
                     blockDisplay.setTransformation(transform);
                     entities.add(blockDisplay);
                     displayMap.put(opt.id, blockDisplay);
@@ -397,7 +366,7 @@ public class EventManager {
                 blockDisplay.setGlowing(false);
                 blockDisplay.setGlowColorOverride(Color.fromRGB((int)0, (int)168, (int)255));
                 float scale = 0.7f;
-                Transformation transform = new Transformation(new Vector3f(-scale / 2.0f, -scale / 2.0f, -scale / 2.0f), new AxisAngle4f(0.0f, 1.0f, 0.0f, (float)Math.toRadians(yawRotation)), new Vector3f(scale, scale, scale), new AxisAngle4f(0.0f, 0.0f, 1.0f, 0.0f));
+                Transformation transform = new Transformation(new Vector3f(-scale / 2.0f, -scale / 2.0f, -scale / 2.0f), new AxisAngle4f(0.0f, 1.0f, 0.0f, (float)Math.toRadians(yawRotation)), new Vector3f(scale, scale, scale), new AxisAngle4f(0.0f, 1.0f, 0.0f, 0.0f));
                 blockDisplay.setTransformation(transform);
                 entities.add(blockDisplay);
                 displayMap.put(opt.id, blockDisplay);
@@ -504,7 +473,7 @@ public class EventManager {
                 if (td == null) continue;
                 int pct = totalVotes > 0 ? (int)Math.round((double)c * 100.0 / (double)totalVotes) : 0;
                 String color = pct > 0 ? "\u00a7a" : "\u00a7c";
-                td.setText("\u00a7e" + bo.displayName + "\n" + color + pct + "%");
+                td.setText(color + pct + "%");
             }
             for (Map<String, TextDisplay> map : this.playerBiomeDisplays.values()) {
                 BlockDisplay bd = (BlockDisplay)map.get(bo.id);
@@ -541,27 +510,30 @@ public class EventManager {
         if (targetWorld == null) {
             targetWorld = (World)Bukkit.getWorlds().get(0);
         }
-        HashMap<UUID, Double> playerGroundY = new HashMap<UUID, Double>();
-        HashMap<UUID, Float> playerYaws = new HashMap<UUID, Float>();
         for (UUID uid : this.participants) {
             p = Bukkit.getPlayer((UUID)uid);
             if (p == null) continue;
             currentLoc = p.getLocation();
-            int groundY = targetWorld.getHighestBlockYAt(currentLoc.getBlockX(), currentLoc.getBlockZ());
-            playerGroundY.put(uid, (double)groundY + 1.0);
-            playerYaws.put(uid, Float.valueOf(currentLoc.getYaw()));
-        }
-        for (UUID uid : this.participants) {
-            p = Bukkit.getPlayer((UUID)uid);
-            if (p == null) continue;
-            currentLoc = p.getLocation();
-            double groundY = playerGroundY.getOrDefault(uid, 100.0);
-            double floatHeight = 20.0;
-            float yaw = playerYaws.getOrDefault(uid, Float.valueOf(0.0f)).floatValue();
-            Location startLoc = new Location(targetWorld, currentLoc.getX(), groundY + floatHeight, currentLoc.getZ(), yaw, 0.0f);
-            p.setAllowFlight(true);
-            p.setFlying(true);
-            p.teleport(startLoc);
+            double safeX = currentLoc.getX();
+            double safeZ = currentLoc.getZ();
+            double safeY = targetWorld.getHighestBlockYAt((int)Math.floor(safeX), (int)Math.floor(safeZ)) + 1.0;
+            Location teleportLoc = new Location(targetWorld, safeX, safeY, safeZ, currentLoc.getYaw(), currentLoc.getPitch());
+            p.teleport(teleportLoc);
+            final double finalSafeX = safeX;
+            final double finalSafeZ = safeZ;
+            final World finalTargetWorld = targetWorld;
+            final float finalYaw = currentLoc.getYaw();
+            final float finalPitch = currentLoc.getPitch();
+            new BukkitRunnable(){
+                public void run() {
+                    Player player = Bukkit.getPlayer(uid);
+                    if (player == null || !player.isOnline()) {
+                        return;
+                    }
+                    Location lowered = new Location(finalTargetWorld, finalSafeX, finalTargetWorld.getHighestBlockYAt((int)Math.floor(finalSafeX), (int)Math.floor(finalSafeZ)) + 1.0, finalSafeZ, finalYaw, finalPitch);
+                    player.teleport(lowered);
+                }
+            }.runTaskLater((Plugin)this.plugin, 2L);
         }
         this.countdownSeconds = 5;
         this.state = EventState.COUNTDOWN;
@@ -796,4 +768,3 @@ public class EventManager {
         }
     }
 }
-

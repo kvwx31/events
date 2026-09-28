@@ -6,6 +6,10 @@ hub-server: "hub"
 
 voting-duration: 60
 
+regen:
+  enabled: true
+  backup-folder: "regen"
+
 worlds:
   - world_minecraft_plains
   - world_minecraft_desert
@@ -15,12 +19,12 @@ worlds:
   - world_minecraft_mushroom
 
 world-options:
-  - "&#00A8FFplains - world_minecraft_plains"
-  - "&#00A8FFdesert - world_minecraft_desert"
-  - "&#00A8FFsnow - world_minecraft_snowy_fields"
-  - "&#00A8FFcherry - world_minecraft_cherry"
-  - "&#00A8FFbadlands - world_minecraft_badlands"
-  - "&#00A8FFmushroom - world_minecraft_mushroom"
+  - "world_minecraft_plains"
+  - "world_minecraft_desert"
+  - "world_minecraft_snowy_fields"
+  - "world_minecraft_cherry"
+  - "world_minecraft_badlands"
+  - "world_minecraft_mushroom"
 
 allowed-commands-before:
   - "msg"

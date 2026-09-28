@@ -1,21 +1,10 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.bukkit.command.CommandExecutor
- *  org.bukkit.configuration.file.FileConfiguration
- *  org.bukkit.configuration.file.YamlConfiguration
- *  org.bukkit.entity.Player
- *  org.bukkit.event.Listener
- *  org.bukkit.plugin.Plugin
- *  org.bukkit.plugin.java.JavaPlugin
- */
 package com.kvwx.events;
 
 import com.kvwx.events.CommandManager;
 import com.kvwx.events.EventListener;
 import com.kvwx.events.EventManager;
 import com.kvwx.events.GuiManager;
+import com.kvwx.events.WorldRegenManager;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -33,6 +22,7 @@ extends JavaPlugin {
     private static EventsPlugin instance;
     private EventManager eventManager;
     private GuiManager guiManager;
+    private WorldRegenManager worldRegenManager;
     private File kitsFile;
     private FileConfiguration kitsConfig;
 
@@ -40,6 +30,7 @@ extends JavaPlugin {
         instance = this;
         this.saveDefaultConfig();
         this.loadKitsConfig();
+        this.worldRegenManager = new WorldRegenManager(this);
         this.eventManager = new EventManager(this);
         this.guiManager = new GuiManager(this);
         CommandManager cmdMgr = new CommandManager(this);
@@ -52,6 +43,8 @@ extends JavaPlugin {
         this.getCommand("stopevent").setExecutor((CommandExecutor)cmdMgr);
         this.getCommand("addtime").setExecutor((CommandExecutor)cmdMgr);
         this.getCommand("removetime").setExecutor((CommandExecutor)cmdMgr);
+        this.getCommand("set-regen").setExecutor((CommandExecutor)cmdMgr);
+        this.getCommand("regen").setExecutor((CommandExecutor)cmdMgr);
         this.getServer().getPluginManager().registerEvents((Listener)new EventListener(this), (Plugin)this);
         this.getServer().getMessenger().registerOutgoingPluginChannel((Plugin)this, "BungeeCord");
         this.getLogger().info("Events plugin enabled successfully!");
@@ -73,6 +66,10 @@ extends JavaPlugin {
 
     public GuiManager getGuiManager() {
         return this.guiManager;
+    }
+
+    public WorldRegenManager getWorldRegenManager() {
+        return this.worldRegenManager;
     }
 
     public void sendToServer(Player player, String serverName) {
@@ -109,4 +106,3 @@ extends JavaPlugin {
         }
     }
 }
-

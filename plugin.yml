@@ -1,5 +1,5 @@
 name: events
-version: 1.0.0
+version: 1.0.1
 author: kvwx
 main: com.kvwx.events.EventsPlugin
 api-version: '1.20'
@@ -38,6 +38,14 @@ commands:
     description: Remove time from event countdown
     permission: events.createevent
     usage: /removetime <time>
+  set-regen:
+    description: Save a snapshot of a world before regeneration
+    permission: events.createevent
+    usage: /set-regen <worldName>
+  regen:
+    description: Restore a saved world snapshot
+    permission: events.createevent
+    usage: /regen <worldName>
 permissions:
   events.createevent:
     description: Allows administrative management of events

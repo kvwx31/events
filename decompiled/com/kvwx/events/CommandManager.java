@@ -1,15 +1,3 @@
-/*
- * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  org.bukkit.Bukkit
- *  org.bukkit.GameMode
- *  org.bukkit.World
- *  org.bukkit.command.Command
- *  org.bukkit.command.CommandExecutor
- *  org.bukkit.command.CommandSender
- *  org.bukkit.entity.Player
- */
 package com.kvwx.events;
 
 import com.kvwx.events.EventManager;
@@ -32,6 +20,38 @@ implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         EventManager em = this.plugin.getEventManager();
+        String commandName = cmd.getName().toLowerCase();
+        
+        if ("set-regen".equals(commandName)) {
+            if (args.length < 1) {
+                sender.sendMessage("\u00a7cUsage: /set-regen <worldName>");
+                return true;
+            }
+            String worldName = args[0];
+            boolean saved = this.plugin.getWorldRegenManager().saveSnapshot(worldName);
+            if (saved) {
+                sender.sendMessage("\u00a7a[Regen] Saved snapshot for " + worldName + " to disk.");
+            } else {
+                sender.sendMessage("\u00a7c[Regen] Could not save a snapshot for " + worldName + ". Make sure the world exists and is loaded.");
+            }
+            return true;
+        }
+        
+        if ("regen".equals(commandName)) {
+            if (args.length < 1) {
+                sender.sendMessage("\u00a7cUsage: /regen <worldName>");
+                return true;
+            }
+            String worldName = args[0];
+            boolean restored = this.plugin.getWorldRegenManager().restoreWorld(worldName);
+            if (restored) {
+                sender.sendMessage("\u00a7a[Regen] Restored world " + worldName + " from backup.");
+            } else {
+                sender.sendMessage("\u00a7c[Regen] No saved snapshot exists for " + worldName + ". Use /set-regen first.");
+            }
+            return true;
+        }
+        
         if (!(sender instanceof Player)) {
             sender.sendMessage("Only players can use this command.");
             return true;
@@ -155,4 +175,3 @@ implements CommandExecutor {
         }
     }
 }
-
